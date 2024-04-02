@@ -1,0 +1,103 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Todo API
+  description: Cubix - Node.js képzés 4\. heti házifeladata
+tags:
+  - name: Todo
+    description: Végpontok a todokhoz
+paths:
+  /todos:
+    get:
+      description: Összes todo lekérdezése
+      tags:
+        - Todo
+      responses:
+        "200":
+          description: Összes todo listája
+          content:
+            application/json:
+              schema:
+                type: array
+                description: Összes todo listája
+                items:
+                  $ref: "#/components/schemas/Todo"
+    post:
+      description: Új todo létrehozása
+      tags:
+        - Todo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                todo:
+                  type: string
+              required: ["todo"]
+      responses:
+        "201":
+          description: Sikeres todo létrehozás
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Todo"
+  /todos/{id}:
+    get:
+      description: Egy todo lekérdezése
+      tags:
+        - Todo
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "200":
+          description: Egy todo adatai
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+    patch:
+      description: Egy todo adatainak részleges módosítása, csak azokat mezőket amiket szeretnénk
+      tags:
+        - Todo
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                todo:
+                  type: string
+      responses:
+        "204":
+          description: Todo adatainak sikeres módosítása
+    delete:
+      description: Egy todo törlése
+      tags:
+        - Todo
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+      responses:
+        "204":
+          description: Todo sikeres törlése
+components:
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: string
+        todo:
+          type: string

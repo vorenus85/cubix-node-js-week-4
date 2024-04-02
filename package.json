@@ -1,0 +1,24 @@
+{
+  "name": "cubix-node-js-week-4",
+  "version": "1.0.0",
+  "description": "rest api for todo app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vorenus85/cubix-node-js-week-4.git"
+  },
+  "keywords": [
+    "node.js",
+    "uuid",
+    "lokijs"
+  ],
+  "author": "Janos Perge",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vorenus85/cubix-node-js-week-4/issues"
+  },
+  "homepage": "https://github.com/vorenus85/cubix-node-js-week-4#readme"
+}
