@@ -36,9 +36,14 @@ app.get('/todos/:id', getTodo(objectRepository), (req, res, next) => {
   return res.status(200).json(res.locals.todo)
 })
 app.post('/todos', createTodo(objectRepository))
-app.delete('/todos/:id', deleteTodo(objectRepository), (req, res, next) => {
-  return res.status(204).json(res.locals.deleteTodo)
-})
+app.delete(
+  '/todos/:id',
+  getTodo(objectRepository),
+  deleteTodo(objectRepository),
+  (req, res, next) => {
+    return res.status(204).json(res.locals.deleteTodo)
+  }
+)
 app.patch('/todos/:id', updateTodo(objectRepository), (req, res, next) => {
   return res.status(204).json(res.locals.updatedTodo)
 })

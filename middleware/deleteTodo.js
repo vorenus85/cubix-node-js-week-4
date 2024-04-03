@@ -1,16 +1,10 @@
 export const deleteTodo = (objectRepository) => {
-  const { todos, findTodo, findTodoIndex, notFound } = objectRepository
+  const { todos } = objectRepository
   return (req, res, next) => {
     const id = req.params.id
-    const todoToDelete = findTodo(todos, id)
-    console.log('todoToDelete', deletedTodo)
-    // 404 if not found
-    if (!todoToDelete) {
-      return notFound(req, res)
-    }
-    const deletedTodoIndex = findTodoIndex(todos, id)
-    todos.splice(deletedTodoIndex, 1)
-    res.locals.deletedTodo = todoToDelete
+    const todoIndex = res.locals.todoIndex
+    todos.splice(todoIndex, 1)
+    res.locals.deletedTodo = { id }
     return next()
   }
 }
