@@ -1,17 +1,18 @@
 export const getTodo = (objectRepository) => {
-  const { todos, findTodo, notFound } = objectRepository
+  const { todos } = objectRepository
   return (req, res, next) => {
     const id = req.params.id
 
-    const foundedTodo = findTodo(todos, id)
-    const todoIndex = todos.findIndex((obj) => obj.id === id)
+    const foundedTodo = todos.find((todo) => todo.id === id)
     // 404 if not found
     if (!foundedTodo) {
-      return notFound(req, res)
+      return res
+        .status(404)
+        .json({ error: `Todo not found with id: ${req.params.id}` })
     }
 
     res.locals.todo = foundedTodo
-    res.locals.todoIndex = todoIndex
+    res.locals.todoIndex = todos.findIndex((obj) => obj.id === id)
     return next()
   }
 }

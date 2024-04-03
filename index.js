@@ -7,7 +7,6 @@ import { createTodo } from './middleware/createTodo.js'
 import { deleteTodo } from './middleware/deleteTodo.js'
 import { updateTodo } from './middleware/updateTodo.js'
 import { searchTodo } from './middleware/searchTodo.js'
-import { findTodo, findTodoIndex, notFound } from './utils.js'
 
 const app = express()
 
@@ -15,9 +14,6 @@ const app = express()
 app.use(bodyParser.json())
 
 const objectRepository = {
-  notFound,
-  findTodoIndex,
-  findTodo,
   uuidv4,
   todos: [
     {
@@ -44,9 +40,14 @@ app.delete(
     return res.status(204).json(res.locals.deleteTodo)
   }
 )
-app.patch('/todos/:id', updateTodo(objectRepository), (req, res, next) => {
-  return res.status(204).json(res.locals.updatedTodo)
-})
+app.patch(
+  '/todos/:id',
+  getTodo(objectRepository),
+  updateTodo(objectRepository),
+  (req, res, next) => {
+    return res.status(204).json(res.locals.updatedTodo)
+  }
+)
 app.post('/search', searchTodo(objectRepository))
 
 app.listen(6000, function () {
