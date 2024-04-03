@@ -1,0 +1,4 @@
+- use dependency injection, object repository [x]
+- use uuid [x]
+- refactoring split into separate files into middlewares [x]
+- add database layer

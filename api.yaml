@@ -13,15 +13,15 @@ paths:
       tags:
         - Todo
       responses:
-        "200":
+        '200':
           description: Összes todo listája
           content:
             application/json:
               schema:
                 type: array
                 description: Összes todo listája
-                items:
-                  $ref: "#/components/schemas/Todo"
+                todos:
+                  $ref: '#/components/schemas/Todo'
     post:
       description: Új todo létrehozása
       tags:
@@ -34,9 +34,9 @@ paths:
               properties:
                 todo:
                   type: string
-              required: ["todo"]
+              required: ['todo']
       responses:
-        "201":
+        '201':
           description: Sikeres todo létrehozás
           content:
             application/json:
@@ -44,27 +44,27 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: "#/components/schemas/Todo"
+                    $ref: '#/components/schemas/Todo'
   /todos/{id}:
     get:
       description: Egy todo lekérdezése
       tags:
         - Todo
       parameters:
-        - $ref: "#/components/parameters/IdParam"
+        - $ref: '#/components/parameters/IdParam'
       responses:
-        "200":
+        '200':
           description: Egy todo adatai
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Todo"
+                $ref: '#/components/schemas/Todo'
     patch:
       description: Egy todo adatainak részleges módosítása, csak azokat mezőket amiket szeretnénk
       tags:
         - Todo
       parameters:
-        - $ref: "#/components/parameters/IdParam"
+        - $ref: '#/components/parameters/IdParam'
       requestBody:
         content:
           application/json:
@@ -74,16 +74,16 @@ paths:
                 todo:
                   type: string
       responses:
-        "204":
+        '204':
           description: Todo adatainak sikeres módosítása
     delete:
       description: Egy todo törlése
       tags:
         - Todo
       parameters:
-        - $ref: "#/components/parameters/IdParam"
+        - $ref: '#/components/parameters/IdParam'
       responses:
-        "204":
+        '204':
           description: Todo sikeres törlése
 components:
   parameters:
