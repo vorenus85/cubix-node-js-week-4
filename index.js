@@ -1,37 +1,35 @@
-import express from "express";
-import bodyParser from "body-parser";
+import express from 'express'
+import bodyParser from 'body-parser'
 
-const app = express();
+const app = express()
 
 // parse application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
-let globalId = 3;
-const books = [
+let globalId = 3
+const todos = [
   {
     id: 1,
-    title: "1es",
-    author: "loremipsum",
+    todo: '1es',
   },
   {
     id: 2,
-    title: "2es",
-    author: "loremipsum2",
+    todo: '2es',
   },
-];
+]
 
-const getBooks = (req, res, next) => {
-  console.table(books);
-  return res.json(books);
-};
+const getTodos = (req, res, next) => {
+  console.table(todos)
+  return res.json(todos)
+}
 
-const getBookIndex = (req, res, next) => {
-  const bookIdAsNumber = parseInt(req.params.id, 10);
-  let foundId = -1;
-  for (let i = 0; i < books.length; i++) {
-    if (books[i].id === bookIdAsNumber) {
-      foundId = i;
-      break;
+const getTodoIndex = (req, res, next) => {
+  const todoIdAsNumber = parseInt(req.params.id, 10)
+  let foundId = -1
+  for (let i = 0; i < todos.length; i++) {
+    if (todos[i].id === todoIdAsNumber) {
+      foundId = i
+      break
     }
   }
 
@@ -39,79 +37,57 @@ const getBookIndex = (req, res, next) => {
   if (foundId === -1) {
     return res
       .status(404)
-      .json({ error: `Book not found with id: ${req.params.id}` });
+      .json({ error: `Todo not found with id: ${req.params.id}` })
   }
 
-  res.locals.bookId = foundId;
-  return next();
-};
-const createBook = (req, res, next) => {
-  if (
-    typeof req.body.title == "undefined" ||
-    typeof req.body.author == "undefined"
-  ) {
+  res.locals.todoId = foundId
+  return next()
+}
+const createTodo = (req, res, next) => {
+  if (typeof req.body.todo == 'undefined') {
     // error case
-    return res.status(400).json({ error: "Missing title or author" });
+    return res.status(400).json({ error: 'Missing todo' })
   }
 
-  const newBook = {
+  const newTodo = {
     id: globalId,
-    title: req.body.title,
-    author: req.body.author,
-  };
-  books.push(newBook);
-  globalId++;
-
-  return res.json(newBook);
-};
-const deleteBook = (req, res, next) => {
-  const deletedBook = books[res.locals.bookId];
-  books.splice(res.locals.bookId, 1);
-  return res.json(deletedBook);
-};
-const updateBook = (req, res, next) => {
-  if (typeof req.body.title !== "undefined") {
-    books[res.locals.bookId].title = req.body.title;
+    todo: req.body.todo,
   }
-  if (typeof req.body.author !== "undefined") {
-    books[res.locals.bookId].author = req.body.author;
+  todos.push(newTodo)
+  globalId++
+
+  return res.json(newTodo)
+}
+const deleteTodo = (req, res, next) => {
+  const deletedTodo = todos[res.locals.todoId]
+  todos.splice(res.locals.todoId, 1)
+  return res.json(deletedTodo)
+}
+const updateTodo = (req, res, next) => {
+  if (typeof req.body.todo !== 'undefined') {
+    todos[res.locals.todoId].todo = req.body.todo
   }
 
-  return res.json(books[res.locals.bookId]);
-};
-const search = (req, res, next) => {
-  if (typeof req.body.search == "undefined") {
+  return res.json(todos[res.locals.todoId])
+}
+const searchTodo = (req, res, next) => {
+  if (typeof req.body.search == 'undefined') {
     // error case
-    return res.status(400).json({ error: "Missing search" });
+    return res.status(400).json({ error: 'Missing search' })
   }
 
-  const s = req.body.search;
-  return res.json(
-    books.filter((e) => e.author.includes(s) || e.title.includes(s))
-  );
-};
-
-const auth = (req, res, next) => {
-  if (typeof req.query.auth === "undefined") {
-    return res.status(400).json({ error: "Missing auth" });
-  }
-
-  if (req.query.auth !== "belaba") {
-    return res.status(401).json({ error: "Wrong auth." });
-  }
-  return next();
-};
-
-app.use("/book", auth);
-app.get("/book", getBooks);
-app.get("/book/:id", getBookIndex, (req, res, next) =>
-  res.json(books[res.locals.bookId])
-);
-app.put("/book", createBook);
-app.delete("/book/:id", getBookIndex, deleteBook);
-app.patch("/book/:id", getBookIndex, updateBook);
-app.post("/search", search);
+  const search = req.body.search
+  return res.json(todos.filter((e) => e.todo.includes(search)))
+}
+app.get('/todos', getTodos)
+app.get('/todos/:id', getTodoIndex, (req, res, next) =>
+  res.json(todos[res.locals.todoId])
+)
+app.put('/todos', createTodo) // todo for create use post method
+app.delete('/todos/:id', getTodoIndex, deleteTodo)
+app.patch('/todos/:id', getTodoIndex, updateTodo)
+app.post('/search', searchTodo)
 
 app.listen(6000, function () {
-  console.log("Running on :6000");
-});
+  console.log('Running on :6000')
+})
