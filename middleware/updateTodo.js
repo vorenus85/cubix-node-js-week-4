@@ -1,15 +1,24 @@
 export const updateTodo = (objectRepository) => {
-  const { todos } = objectRepository
+  const { todoModel, db } = objectRepository;
   return (req, res, next) => {
-    const id = req.params.id
-    const todoIndex = res.locals.todoIndex
-    const newTodo = req.body.todo
+    const id = req.params.id;
+    const newTodo = req.body.todo;
 
     if (typeof newTodo !== 'undefined') {
-      todos[todoIndex].todo = newTodo
+      res.locals.todo.todo = newTodo;
+    } else {
+      return res.status(404).json({ error: `Please give todo string` });
     }
 
-    res.locals.updatedTodo = { id, todo: newTodo }
-    return next()
-  }
-}
+    todoModel.update(res.locals.todo);
+
+    return db.saveDatabase((error) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
+      res.locals.updatedTodo = { ...res.locals.todo };
+      return next();
+    });
+  };
+};

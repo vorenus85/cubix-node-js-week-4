@@ -1,7 +1,8 @@
 export const getTodos = (objectRepository) => {
-  const { todos } = objectRepository
+  const { todoModel } = objectRepository;
   return (req, res, next) => {
-    res.locals.todos = res.json(todos)
-    return next()
-  }
-}
+    const allTodos = todoModel.find();
+    res.locals.todos = res.json(allTodos);
+    return next();
+  };
+};

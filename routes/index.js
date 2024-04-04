@@ -9,16 +9,8 @@ import { searchTodo } from '../middleware/searchTodo.js';
 export function addRoutes(app, db, todoModel) {
   const objectRepository = {
     uuidv4,
-    todos: [
-      {
-        id: 'asd-123-asd',
-        todo: 'First todo',
-      },
-      {
-        id: 'mnb-321-mnb',
-        todo: 'Second todo',
-      },
-    ],
+    db,
+    todoModel,
   };
 
   app.get('/todos', getTodos(objectRepository));
