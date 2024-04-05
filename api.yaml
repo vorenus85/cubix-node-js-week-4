@@ -20,7 +20,7 @@ paths:
               schema:
                 type: array
                 description: Összes todo listája
-                todos:
+                items:
                   $ref: '#/components/schemas/Todo'
     post:
       description: Új todo létrehozása
@@ -41,10 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/Todo'
+                $ref: '#/components/schemas/Todo'
   /todos/{id}:
     get:
       description: Egy todo lekérdezése
