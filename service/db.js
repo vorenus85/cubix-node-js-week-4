@@ -10,7 +10,7 @@ export function initDatabase(callback) {
     let todoModel = db.getCollection('todos');
 
     if (todoModel === null) {
-      todoModel = db.addCollection('books');
+      todoModel = db.addCollection('todos');
     }
 
     db.saveDatabase((error) => {
