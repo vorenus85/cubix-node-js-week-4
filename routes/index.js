@@ -23,7 +23,7 @@ export function addRoutes(app, db, todoModel) {
     getTodo(objectRepository),
     deleteTodo(objectRepository),
     (req, res, next) => {
-      return res.status(204).json(res.locals.deleteTodo);
+      return res.status(204).json();
     }
   );
   app.patch(
@@ -31,7 +31,7 @@ export function addRoutes(app, db, todoModel) {
     getTodo(objectRepository),
     updateTodo(objectRepository),
     (req, res, next) => {
-      return res.status(204).json(res.locals.updatedTodo);
+      return res.status(204).json();
     }
   );
   app.post('/search', searchTodo(objectRepository));
